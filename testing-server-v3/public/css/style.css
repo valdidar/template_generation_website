@@ -43,6 +43,15 @@ nav ul li a{
     background-color: #25313E;
     border: 5px solid #4A525A;
 }
+h1{
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 500;
+    margin: 10px;
+    align-self: baseline;   
+    transition: 0.5s;
+    margin-right: 0px;
+}
 /* for new-template */
 .new-template{
     display: flex;
@@ -84,7 +93,7 @@ nav ul li a{
     font-weight: 500;
 }
 .leftpart textarea{
-    height: 140px;
+    height: 240px;
 }
 .new-template .submit{
     width: 100px;
@@ -265,3 +274,4 @@ nav ul li a{
     transition: 0.5s;
     margin-right: 0px;
 }
+

@@ -44,66 +44,47 @@ button.addEventListener("click", () => {
       newText = newText.replace("$" + variable, values[0][1]);
     values.shift();
   }
-  console.log(newText)
-  while (newText.includes("&lt;br&gt;") || newText.includes("&amp;nbsp;&amp;nbsp;")) {
-    newText = newText.replace("&lt;br&gt;", "\n").replace("&amp;nbsp;&amp;nbsp;", "\t")
-  }
-  //download the file
-  // const fileName = "example.txt";
-
-  // const blob = new Blob([newText], { type: "text/plain" });
-  // const link = document.createElement("a");
-  // link.href = URL.createObjectURL(blob);
-  // link.download = fileName;
-  // link.click();
-  // URL.revokeObjectURL(link.href);
-
-  const fileeName = "example.html";
-
+  const fileName = "document.html";
+  const title = name
+  const parser = new DOMParser();
+const decodedText = parser.parseFromString(`<!doctype html><body>${newText}`, "text/html").body.textContent;
+console.log(decodedText);
 const htmlContent = `
 <!DOCTYPE html>
 <html>
 <head>
-<title>Example</title>
+<title>${title}</title>
+<style>
+table{
+  border-collapse: collapse;
+  width: 95%;
+  margin: 2%;
+  padding: 3%;
+  border-radius: 10px;
+  border: 2px solid #1d1d1d;
+  background-color: #fff;
+  color: #343A40;
+  word-wrap: break-word;
+  overflow: auto;
+}
+th, td{
+  border: 1px solid #1d1d1d;
+  padding: 10px;
+  text-align: left;
+}
+</style>
 </head>
 <body>
-<h1>Heading 1</h1>
-<h2>Heading 2</h2>
-<table>
-  <thead>
-    <tr>
-      <th>Column 1</th>
-      <th>Column 2</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Row 1, Cell 1</td>
-      <td>Row 1, Cell 2</td>
-    </tr>
-    <tr>
-      <td>Row 2, Cell 1</td>
-      <td>Row 2, Cell 2</td>
-    </tr>
-  </tbody>
-</table>
+${decodedText}
 </body>
-</html>
-`;
+</html>`;
 
-const blobb = new Blob([htmlContent], { type: "text/html" });
-const linkk = document.createElement("a");
-linkk.href = URL.createObjectURL(blobb);
-linkk.download = fileeName;
-linkk.click();
-URL.revokeObjectURL(linkk.href);
-
-
-  // Display the new text
-  const outputDiv = document.querySelector(".output_text");
-  const output = document.createElement("p");
-  output.textContent = newText;
-  outputDiv.appendChild(output);
+const blob = new Blob([htmlContent], { type: "text/html" });
+const link = document.createElement("a");
+link.href = URL.createObjectURL(blob);
+link.download = fileName;
+link.click();
+URL.revokeObjectURL(link.href);
 });
 
 // Append the form and button to the div
