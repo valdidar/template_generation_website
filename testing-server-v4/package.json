@@ -1,7 +1,7 @@
 {
-    "name": "tester",
-    "version": "1.0.0",
-    "description": "",
+    "name": "template-generator",
+    "version": "4.0.0",
+    "description": "this is a template generator",
     "main": "server.js",
     "scripts": {
         "start": "node server",
