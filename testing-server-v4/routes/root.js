@@ -1,35 +1,47 @@
 const { time } = require('console');
+const { te } = require('date-fns/locale');
 const express = require('express');
-const path = require('path');
-const fs = require('fs')
-const templates = require(path.join('../data/templates'))
-const users = require(path.join('../data/users'))
-const sendError = require(path.join('../middleware/error'))
+const Template = require('../data/Template');
+const sendError = require('../middleware/error');
 const router = express.Router()
 
 // here we can browse all the templates
-router.get('^/$|/use-template?', (req, res) => {
+router.get('^/$|/use-template?', async (req, res) => {
+    const templatesExtra = await Template.find().exec();
+    // add only name and slug to templates
+    const templates = templatesExtra.map((template) => {
+        return {
+            name: template.name,
+            slug: template.slug,
+            createdAt: template.createdAt,
+            updatedAt: template.updatedAt
+        }
+    })
+    // console.log(templates);
     res.render('home', {
         templates: templates
     })
 })
 
-// here we can use a template
-router.get('/use-template/:slug', (req, res) => {
-    console.log(req.params.slug)
-    myTemplate = templates.filter(templates => {
-        return templates.slug==req.params.slug
-    })
-    if(myTemplate.length==0) {
-        res.status(404).send("Template not found")
-        return
+router.get('/use-template/:slug', async (req, res) => {
+    const slug = req.params.slug;
+    console.log(slug);
+    try {
+      const myTemplate = await Template.findOne({ slug }).exec();
+      if (!myTemplate) {
+        return res.sendStatus(404); // Not found
+      }
+      // makes preText from text to preserve the formatting
+      console.log(myTemplate);
+      
+      res.render('use-template', {
+        name: myTemplate.name,
+        text: myTemplate.text,
+      });
+    } catch (error) {
+      console.error(error);
+      // handle the error appropriately
+      res.sendStatus(500); // Internal Server Error
     }
-    //makes preText from text to preserve the formatting
-    console.log(myTemplate)
-    res.render('use-template', {
-        name: myTemplate[0].name,
-        text: myTemplate[0].text
-    })
-})
-
+  });
 module.exports = router;

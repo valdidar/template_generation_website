@@ -1,11 +1,4 @@
-const templatesDB = {
-    templates: require('../data/templates.json'),
-    setTemplates: function (templates) {
-        this.templates = templates;
-    }
-}
-const fsPromises = require('fs').promises;
-const path = require('path');
+const Template = require('../data/Template');
 const bcrypt = require('bcrypt');
 const { te } = require('date-fns/locale');
 
@@ -15,24 +8,19 @@ const templateAdition = async (req, res) => {
         res.status(400).json({ 'message': 'Bad request' });
         return;
     }
-    //check for duplicate slug
-    const duplicateSlug = templatesDB.templates.find(template => template.slug === slug);
-    if( duplicateSlug) return res.status(409);//conflict
+    //check for duplicate slug with using mongoDB
+    const duplicateSlug = await Template.findOne({ slug: slug }).exec();
+    if (duplicateSlug) return res.sendStatus(409); //Conflict 
     try {
-        const template = {
-            "name": name,
-            "text": text,
-            "slug": slug
-        }
-        templatesDB.setTemplates([...templatesDB.templates, template]);
-        await fsPromises.writeFile(path.join
-            (__dirname, '..', 'data', 'templates.json'),
-            JSON.stringify(templatesDB.templates)
-        );
-        console.log(templatesDB.templates);
-        res.status(200).json({ 'message': `new template ${name} added` });
+        const result = await Template.create({
+            name: name,
+            text: text,
+            slug: slug
+        });
+
+        res.status(201).json(result);
     } catch (error) {
-        res.status(500).json({ 'message': error.message });
+        console.error(err);
     }
 }
 

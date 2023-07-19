@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-require('dotenv').config();
 const path = require('path');
 const sendError = require(path.join(__dirname,'./error'))
 
