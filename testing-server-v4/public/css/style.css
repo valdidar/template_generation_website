@@ -180,13 +180,29 @@ th, td{
     background-color: #f44336;
     color: white;
     border: none;
-    border-radius: 20%;
+    border-radius: 10%;
     padding: 3px 3px;
     cursor: pointer;
     opacity: 0.5;
     transition: 0.3s;
   }
     .delete-button:hover {
+        opacity: 1;
+    }
+    .insert-below{
+        position: absolute;
+        top: 2px;
+        right: 50px;
+        background-color: #3FB950;
+        color: white;
+        border: none;
+        border-radius: 5%;
+        padding: 3px 3px;
+        cursor: pointer;
+        opacity: 0.5;
+        transition: 0.3s;
+    }
+    .insert-below:hover {
         opacity: 1;
     }
 /* .new-template label{

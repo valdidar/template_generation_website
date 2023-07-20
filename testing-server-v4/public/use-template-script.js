@@ -75,6 +75,9 @@ th, td{
 .delete-button{
   display: none;
 }
+.insert-below{
+  display: none;
+}
 </style>
 </head>
 <body>
