@@ -37,6 +37,28 @@ router.get('/use-template/:slug', async (req, res) => {
       res.render('use-template', {
         name: myTemplate.name,
         text: myTemplate.text,
+        slug: myTemplate.slug
+      });
+    } catch (error) {
+      console.error(error);
+      // handle the error appropriately
+      res.sendStatus(500); // Internal Server Error
+    }
+  });
+  router.get('/edit-template/:slug', async (req, res) => {
+    const slug = req.params.slug;
+    console.log(slug);
+    try {
+      const myTemplate = await Template.findOne({ slug }).exec();
+      if (!myTemplate) {
+        return res.sendStatus(404); // Not found
+      }
+      // makes preText from text to preserve the formatting
+      console.log(myTemplate);
+      res.render('edit-template', {
+        name: myTemplate.name,
+        text: myTemplate.text,
+        slug: myTemplate.slug
       });
     } catch (error) {
       console.error(error);

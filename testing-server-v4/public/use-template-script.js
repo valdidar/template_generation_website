@@ -72,6 +72,9 @@ th, td{
   padding: 10px;
   text-align: left;
 }
+.delete-button{
+  display: none;
+}
 </style>
 </head>
 <body>

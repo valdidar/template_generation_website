@@ -5,10 +5,9 @@
     </div>
   </nav>
 <div class="container">
-{{!-- now in version 4, i want to make html template, where i can have headings from h1 to h6, i can have paragraph with p tag,
-as i take these input from different input elements, i also want to visualise the output by showing the html in a small screen --}}
+{{!-- this edits the existing template and then we can post the updated template --}}
 <label class="heading" for="name">Enter the name of the template:</label>
-<input class="heading" type="text" id="name" name="name" placeholder="Your name..">
+<input class="heading" type="text" id="name" name="name">
 <h4 class="subsubheading">Note: Simply include variables in your template using ${sample variable} syntax for easy customization!</h4>
 <div class="new-template">
     <div class="leftpart">
@@ -62,7 +61,15 @@ as i take these input from different input elements, i also want to visualise th
 </div>
 </div>
 <script>
-    
+    // add name to name input
+    document.getElementById("name").value = "{{name}} copy";
+    //add the previous html to the whitescreen
+    previousHtml= "{{text}}";
+    const parser = new DOMParser();
+    const decodedText = parser.parseFromString(`<!doctype html><body>${previousHtml}`, "text/html").body.textContent;
+    console.log(decodedText);
+    document.getElementsByClassName("whitescreen")[0].innerHTML = decodedText;
+
     // this function takes h tag from heading-tags and heading-value and inserts the htmp in string htmlInsideWhitescreen
     function insertHeading() {
         htmlInsideWhitescreen = ``;
@@ -158,13 +165,13 @@ as i take these input from different input elements, i also want to visualise th
             slug: name.toLowerCase().replace(/ /g, '-')
         };
         console.log(JSON.stringify(data));
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "/new-template");
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify(data));
-        xhr.onload = function () {
-            console.log(this.responseText);
-            window.location.href = "/";
-        };
+        //var xhr = new XMLHttpRequest();
+        //xhr.open("POST", "/new-template");
+        //xhr.setRequestHeader('Content-Type', 'application/json');
+        //xhr.send(JSON.stringify(data));
+        //xhr.onload = function () {
+        //    console.log(this.responseText);
+        //    window.location.href = "/";
+        //};
     }
 </script>
