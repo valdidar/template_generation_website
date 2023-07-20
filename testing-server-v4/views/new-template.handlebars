@@ -62,7 +62,21 @@ as i take these input from different input elements, i also want to visualise th
 </div>
 </div>
 <script>
+    //add name to input if name is not empty
+    if ("{{name}}" != ""){
+        document.getElementById("name").value = "{{name}} copy";
+        // change Enter the name of the template: to Edit the name of the template:
+        document.getElementsByClassName("heading")[0].innerHTML = "Edit the name of the template:"; 
+    }
     
+    //add the previous html to the whitescreen if it is not empty
+    if("{{text}}" != ""){
+    previousHtml= "{{text}}";
+        const parser = new DOMParser();
+        const decodedText = parser.parseFromString(`<!doctype html><body>${previousHtml}`, "text/html").body.textContent;
+        console.log(decodedText);
+        document.getElementsByClassName("whitescreen")[0].innerHTML = decodedText;
+    }
     // this function takes h tag from heading-tags and heading-value and inserts the htmp in string htmlInsideWhitescreen
     function insertHeading() {
         htmlInsideWhitescreen = ``;

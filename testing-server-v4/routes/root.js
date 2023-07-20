@@ -55,7 +55,7 @@ router.get('/use-template/:slug', async (req, res) => {
       }
       // makes preText from text to preserve the formatting
       console.log(myTemplate);
-      res.render('edit-template', {
+      res.render('new-template', {
         name: myTemplate.name,
         text: myTemplate.text,
         slug: myTemplate.slug
